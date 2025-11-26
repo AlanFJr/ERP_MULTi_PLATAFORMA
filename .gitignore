@@ -19,6 +19,7 @@ ENV/
 *.log
 *.sqlite3
 *.db
+users.json
 
 # OS / editor junk
 .DS_Store

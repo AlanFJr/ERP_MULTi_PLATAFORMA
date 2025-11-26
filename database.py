@@ -49,6 +49,38 @@ def get_all_products():
                 
     return resultados
 
+
+def search_products(term):
+    """Retorna produtos cujo SKU ou nome contém o termo informado."""
+    if not term:
+        return get_all_products()
+
+    conn = get_db_connection()
+    resultados = []
+
+    if conn:
+        try:
+            cursor = conn.cursor(dictionary=True)
+            like_term = f"%{term}%"
+            query = """
+                SELECT p.id, p.sku, p.nome, p.estoque_real, m.remote_item_id as shopee_id
+                FROM produtos p
+                LEFT JOIN mapeamento_plataforma m ON p.sku = m.produto_sku AND m.plataforma = 'SHOPEE'
+                WHERE p.sku LIKE %s OR p.nome LIKE %s
+            """
+            cursor.execute(query, (like_term, like_term))
+            resultados = cursor.fetchall()
+
+        except Error as e:
+            print(f"Erro na busca de produtos: {e}")
+
+        finally:
+            if conn.is_connected():
+                cursor.close()
+                conn.close()
+
+    return resultados
+
 # --- U (UPDATE) - ATUALIZAR DADOS ---
 def update_stock(sku, new_quantity):
     """
