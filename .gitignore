@@ -1,0 +1,27 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Environment files / secrets
+.env
+.env.*
+*.key
+*.pem
+
+# Logs and local data
+*.log
+*.sqlite3
+*.db
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
